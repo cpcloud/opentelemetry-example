@@ -1,7 +1,7 @@
 version: "3"
 services:
   # Jaeger
-  jaeger-all-in-one:
+  jaeger:
     image: jaegertracing/all-in-one:1.22
     ports:
       - "16686:16686"
@@ -11,9 +11,9 @@ services:
   otel-collector:
     image: otel/opentelemetry-collector:latest
     ports:
-      - "4317:4317"        # OTLP gRPC receiver
+      - "4317:4317"   # OTLP gRPC receiver
     depends_on:
-      - jaeger-all-in-one
+      - jaeger
     volumes:
       - $PWD/otel:/etc/otel:ro
     command: ["--config", "/etc/otel/config.yml"]

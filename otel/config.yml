@@ -2,6 +2,17 @@ receivers:
   otlp:
     protocols:
       grpc:
+  hostmetrics:
+    collection_interval: 1m
+    scrapers:
+      cpu:
+      load:
+      memory:
+      disk:
+      filesystem:
+      network:
+      paging:
+      processes:
 
 processors:
   batch:
@@ -9,12 +20,10 @@ processors:
 exporters:
   logging:
     loglevel: debug
-  file:
-    path: /dev/stdout
   jaeger:
     # this address is resolved in the container
     # so service names work
-    endpoint: jaeger-all-in-one:14250
+    endpoint: jaeger:14250
     insecure: true
 
 service:
@@ -23,3 +32,7 @@ service:
       receivers: [otlp]
       processors: [batch]
       exporters: [logging, jaeger]
+    metrics:
+      receivers: [otlp, hostmetrics]
+      processors: [batch]
+      exporters: [logging]
