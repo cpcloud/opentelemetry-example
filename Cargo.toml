@@ -1,0 +1,29 @@
+[package]
+name = "tracing-grpc"
+version = "0.1.0"
+edition = "2018"
+publish = false
+
+[[bin]] # Bin to run the gRPC server
+name = "grpc-server"
+path = "src/server.rs"
+
+[[bin]] # Bin to run the gRPC client
+name = "grpc-client"
+path = "src/client.rs"
+
+[dependencies]
+http = "0.2"
+tonic = "0.6.1"
+prost = "0.9.0"
+tokio = { version = "1.0", features = ["full"] }
+opentelemetry = { version = "0.16", features = ["rt-tokio"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3.3", features = ["env-filter"] }
+tracing-opentelemetry = "0.16"
+tracing-futures = "0.2"
+opentelemetry-otlp = "0.9.0"
+opentelemetry-semantic-conventions = "0.8.0"
+
+[build-dependencies]
+tonic-build = "0.6"

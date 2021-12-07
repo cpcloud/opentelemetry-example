@@ -1,0 +1,25 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+processors:
+  batch:
+
+exporters:
+  logging:
+    loglevel: debug
+  file:
+    path: /dev/stdout
+  jaeger:
+    # this address is resolved in the container
+    # so service names work
+    endpoint: jaeger-all-in-one:14250
+    insecure: true
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging, jaeger]
